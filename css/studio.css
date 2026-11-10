@@ -1,0 +1,234 @@
+/* Strictly 1-bit: only #000 and #fff, no radii, no shadows, no smoothing.
+   --px is the size of one screen pixel, set from JS (see js/core/scale.js). */
+
+:root {
+  --px: 1px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  cursor: inherit;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+}
+
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  font: 16px monospace; /* only used for the boot error message */
+}
+
+::selection {
+  background: #000;
+  color: #fff;
+}
+
+canvas {
+  display: block;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+#desktop {
+  position: fixed;
+  inset: 0;
+  outline: none;
+  background-color: #fff;
+  background-size: calc(var(--px) * 2) calc(var(--px) * 2);
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Frames (windows) ---- */
+
+.frame {
+  position: absolute;
+  width: max-content;
+  background: #fff;
+  border: var(--px) solid #000;
+}
+
+.frame[hidden],
+.icon[hidden] {
+  display: none;
+}
+
+/* Black title stripe, flush with the top edge. */
+.frame-title {
+  display: flex;
+  align-items: center;
+  height: calc(var(--px) * 18);
+  padding: 0 calc(var(--px) * 2) 0 calc(var(--px) * 3);
+  gap: calc(var(--px) * 3);
+  background: #000;
+  touch-action: none;
+}
+
+.frame-title .title-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.frame-title .title-text canvas {
+  max-width: 100%;
+  object-fit: none;
+  object-position: left center;
+}
+
+.frame-btn {
+  appearance: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+  flex: none;
+}
+
+.frame-btn:focus-visible {
+  outline: var(--px) solid #fff;
+  outline-offset: var(--px);
+}
+
+/* The second rule of the double border: a white gap, then a black line. */
+.frame-body {
+  position: relative;
+  padding: calc(var(--px) * 2);
+}
+
+.frame-content {
+  border: var(--px) solid #000;
+}
+
+.drag-outline {
+  position: absolute;
+  z-index: 100000;
+  pointer-events: none;
+  border: var(--px) solid #000;
+  outline: var(--px) solid #fff;
+}
+
+.drag-outline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--px) solid #fff;
+}
+
+/* ---- Icons ---- */
+
+.icon {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  touch-action: none;
+}
+
+.icon:focus-visible {
+  outline: var(--px) solid #000;
+  outline-offset: var(--px);
+}
+
+/* ---- Menus ---- */
+
+.menu {
+  position: absolute;
+  z-index: 200000;
+  background: #fff;
+  border: var(--px) solid #000;
+  padding: var(--px);
+  outline: none;
+}
+
+.menu-inner {
+  border: var(--px) solid #000;
+  padding-bottom: calc(var(--px) * 2);
+}
+
+.menu-title {
+  border-bottom: var(--px) solid #000;
+  margin-bottom: calc(var(--px) * 2);
+}
+
+.menu-sep {
+  height: var(--px);
+  margin: calc(var(--px) * 2) 0;
+  background: #000;
+}
+
+.menu-item {
+  outline: none;
+}
+
+/* ---- Panel widgets ---- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--px) * 5);
+  padding: calc(var(--px) * 8);
+}
+
+.panel-row {
+  display: flex;
+  gap: calc(var(--px) * 8);
+  align-items: center;
+}
+
+.widget,
+.widget-btn {
+  width: max-content;
+  outline: none;
+  flex: none;
+}
+
+.widget-btn {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+}
+
+/* ---- Tools ---- */
+
+.shell {
+  display: flex;
+  outline: none;
+}
+
+.graphics-tty {
+  border-bottom: var(--px) solid #000;
+}
+
+.boot-error {
+  position: fixed;
+  inset: 0;
+  padding: 2em;
+  background: #fff;
+  white-space: pre-wrap;
+}
